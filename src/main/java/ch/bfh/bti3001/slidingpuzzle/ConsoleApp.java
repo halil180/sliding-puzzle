@@ -7,43 +7,51 @@ import java.util.Scanner;
  * {@link ConsoleApp#main(String[])} method.
  */
 public class ConsoleApp {
-
     /**
      * Launches the sliding puzzle game in the console.
      *
      * @param args The list if application arguments
      */
     public static void main(String[] args) {
-
+        int width = 3;
+        int height = 3;
         System.out.println("WELCOME TO THE SLIDING PUZZLE APP!!!");
         System.out.println("Commands: u=up, d=down, l=left, r=right, b=back, n=new, s=reset, q=quit");
-        Game game = new Game(3,3);// new game instance 3*3
+        Game game = new Game(width,height);// new game instance 3*3
+        Scanner scanner = new Scanner(System.in);
 
         ///while(true or some function()){
         System.out.println("Moves = " + game.getTotalMoves());
-        //TODO display the puzzle
-        Scanner scanner = new Scanner(System.in);
+        game.getCurrentPuzzle();//TODO display this correctly
         char userInput = scanner.next().charAt(0);
         switch (userInput) {
             case 'u':
                 System.out.println("You pressed UP");
-                ///do something......
+                game.play(Move.UP);
                 break;
             case 'd':
                 System.out.println("DOWN");
+                game.play(Move.DOWN);
                 break;
             case 'l':
                 System.out.println("LEFT");
+                game.play(Move.LEFT);
                 break;
             case 'r':
                 System.out.println("RIGHT");
+                game.play(Move.RIGHT);
                 break;
             case 'b':
                 System.out.println("BACK");
+                if (game.hasMoveBack()){
+                    game.moveBack();
+                }else{
+                    System.out.println("you don't have a move that can be taken back");
+                }
                 break;
             case 'n':
                 System.out.println("NEW");
-                game.startNewGame(3,3);
+                game.startNewGame(height,width);
                 break;
             case 's':
                 System.out.println("RESET");
@@ -58,9 +66,8 @@ public class ConsoleApp {
                 break;
         }
 
-
         if (game.gameOver()){
-            System.out.println("CONGRATULATION");
+            System.out.println("CONGRATULATIONS!!! You solved the puzzle, Total Moves = " + game.getTotalMoves());
             // break;
         }
 
