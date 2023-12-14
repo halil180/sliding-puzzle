@@ -1,3 +1,7 @@
+/*
+ * Project and Training 1 - Computer Science, Berner Fachhochschule
+ */
+
 package ch.bfh.bti3001.slidingpuzzle;
 
 import javafx.application.Application;
