@@ -25,7 +25,7 @@ the confines of the board without lifting them.
 ### UML Class Diagram
 
 draft:
-![puzzle_uml.png](img%2Fpuzzle_uml.png)
+![puzzle_uml.png](img/puzzle_uml.png)
 
 *UML class diagram: created with [Lucidchart](https://www.lucidchart.com)*
 
