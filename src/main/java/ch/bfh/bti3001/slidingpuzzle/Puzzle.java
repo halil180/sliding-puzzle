@@ -108,15 +108,21 @@ public class Puzzle {
 	 * @return {@code true}, if the puzzle is solved, {@code false} otherwise
 	 */
 	public boolean isSolved() {
+		if (grid[height - 1][width - 1] != null) {
+			return false;
+		}
 
-		// TODO fix logic for only 1 column
+		int previous = 0;
+
 		for (int row = 0; row < height; row++)
-			for (int col = 0; col < width - 1; col++) {
+			for (int col = 0; col < width; col++) {
 				Integer current = grid[row][col];
-				Integer next = grid[row][col + 1];
-				if (current == null || current + 1 != next) {
+				if (current == null) {
+					return true;
+				} else if (current != previous + 1) {
 					return false;
 				}
+				previous++;
 			}
 		return true;
 	}
