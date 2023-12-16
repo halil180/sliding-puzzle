@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
  * state of the puzzle when moves are being played.
  */
 public class Puzzle {
-    private static final String NEW_LN = System.lineSeparator();
+    private static final String NEW_LN = "\n";
     private static final String ROW_SEPARATOR = "--+";
 
     // [row][col]
@@ -231,7 +231,10 @@ public class Puzzle {
      * @return The value at the specified cell
      */
     public int getValue(int col, int row) {
-        return grid[row - 1][col - 1];
+        Integer value = grid[row - 1][col - 1];
+        if (value == null) return 99;      // special value for empty cell
+
+        return value;
     }
 
     @Override
