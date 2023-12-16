@@ -5,6 +5,7 @@
 package ch.bfh.bti3001.slidingpuzzle;
 
 import java.util.Optional;
+import java.util.Stack;
 
 /**
  * Instances of this class represent a running sliding puzzle game. In addition to the sliding puzzle itself, it takes
@@ -13,6 +14,9 @@ import java.util.Optional;
  * contains an unsolved puzzle.
  */
 public class Game {
+    private Puzzle puzzle;
+    private Stack<Move> moveStack;
+    private int totalMoves;
 
     /**
      * Construct a new instance of this class for specified {@code width} and {@code height} parameters. It ensures that
@@ -22,7 +26,10 @@ public class Game {
      * @param height The height of the sliding puzzle
      */
     public Game(int width, int height) {
-        // TODO: WRITE YOUR CODE HERE
+        puzzle = new Puzzle(width, height);
+        moveStack = new Stack<>();
+        shufflePuzzle();
+        totalMoves = 0;
     }
 
     /**
@@ -31,8 +38,7 @@ public class Game {
      * @return The total number of moves played
      */
     public int getTotalMoves() {
-        // TODO: WRITE YOUR CODE HERE
-        return 0;
+        return totalMoves;
     }
 
     /**
@@ -41,8 +47,7 @@ public class Game {
      * @return A copy of the sliding puzzle instance.
      */
     public Puzzle getCurrentPuzzle() {
-        // TODO: WRITE YOUR CODE HERE
-        return null;
+        return puzzle;
     }
 
     /**
@@ -53,14 +58,17 @@ public class Game {
      * @param height The height of the new sliding puzzle
      */
     public void startNewGame(int width, int height) {
-        // TODO: WRITE YOUR CODE HERE
+        puzzle = new Puzzle(width, height);
+        shufflePuzzle();
+        moveStack = new Stack<>();
+        totalMoves = 0;
     }
 
     /**
      * Resets the current game to the initial state after its creation.
      */
     public void resetGame() {
-        // TODO: WRITE YOUR CODE HERE
+        while (!moveStack.isEmpty()) this.moveBack();
     }
 
     /**
@@ -69,8 +77,7 @@ public class Game {
      * @return {@code true}, if the game is over, {@code false} otherwise
      */
     public boolean gameOver() {
-        // TODO: WRITE YOUR CODE HERE
-        return true;
+        return puzzle.isSolved();
     }
 
     /**
@@ -84,8 +91,23 @@ public class Game {
      * @return An {@link Optional} containing the corresponding {@link Move} instance (or an empty {@link Optional})
      */
     public Optional<Move> getMove(int col, int row) {
-        // TODO: WRITE YOUR CODE HERE
-        return null;
+        if (col == puzzle.getEmptyCol() && row == puzzle.getEmptyRow() + 1) {
+            return Optional.of(Move.UP);
+        }
+
+        if (col == puzzle.getEmptyCol() && row == puzzle.getEmptyRow() - 1) {
+            return Optional.of(Move.DOWN);
+        }
+
+        if (col == puzzle.getEmptyCol() - 1 && row == puzzle.getEmptyRow()) {
+            return Optional.of(Move.RIGHT);
+        }
+
+        if (col == puzzle.getEmptyCol() + 1 && row == puzzle.getEmptyRow()) {
+            return Optional.of(Move.LEFT);
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -98,8 +120,7 @@ public class Game {
      * @return The value at the specified cell
      */
     public int getValue(int col, int row) {
-        // TODO: WRITE YOUR CODE HERE
-        return 0;
+        return puzzle.getValue(col, row);
     }
 
     /**
@@ -110,7 +131,11 @@ public class Game {
      * @return {@code true}, if the move has been played, {@code false}, otherwise
      */
     public boolean play(Move move) {
-        // TODO: WRITE YOUR CODE HERE
+        if (!puzzle.isValid(move)) return false;
+
+        puzzle.play(move);
+        moveStack.push(move);
+        totalMoves++;
         return true;
     }
 
@@ -120,15 +145,22 @@ public class Game {
      * @return {@code true}, if the current game has moves that can be taken back, {@code false} otherwise
      */
     public boolean hasMoveBack() {
-        // TODO: WRITE YOUR CODE HERE
-        return true;
+        return !moveStack.isEmpty();
     }
 
     /**
      * Backtracks the current game by one move, if such a move exists.
      */
     public void moveBack() {
-        // TODO: WRITE YOUR CODE HERE
+        if (hasMoveBack()) {
+            puzzle.play(moveStack.pop().reverse());
+            totalMoves++;
+        }
     }
 
+    private void shufflePuzzle() {
+        while (this.gameOver()) {
+            puzzle.playRandomMoves(puzzle.getHeight() * puzzle.getWidth());
+        }
+    }
 }

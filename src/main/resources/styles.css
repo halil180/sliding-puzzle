@@ -12,11 +12,12 @@
     -fx-background-color: #FFFFFF
 }
 
-.odd-indexed {
+.pink-cell {
     -fx-background-color: #FF9396
 }
 
 .empty-cell {
+    -fx-text-fill: transparent;
     -fx-background-color: #BBBBBB
 }
 
@@ -25,7 +26,15 @@
     -fx-padding: 8px;
 }
 
+.label-title {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db; /* Choose your desired text color */
+}
+
 .success {
+    -fx-opacity: 100%;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #78DE1E
