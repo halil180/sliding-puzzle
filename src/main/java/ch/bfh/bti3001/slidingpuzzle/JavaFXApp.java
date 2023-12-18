@@ -8,6 +8,7 @@ import ch.bfh.bti3001.slidingpuzzle.gui.PuzzleView;
 import ch.bfh.bti3001.slidingpuzzle.gui.PuzzleViewController;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -23,15 +24,13 @@ public class JavaFXApp extends Application {
         Game game = new Game(width, height);
         PuzzleViewController controller = new PuzzleViewController(game, new PuzzleView());
 
-        // styling
-        String stylesheet = String.valueOf(this.getClass().getResource("/styles.css"));
-
-        // Scene
-        Scene scene = new Scene(controller.getView());
-        scene.getStylesheets().add(stylesheet);
+        Scene scene = new Scene(controller.getBackground());
+        scene.getStylesheets().add(String.valueOf(this.getClass().getResource("/style/styles.css")));
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.setTitle("Sliding Puzzle");
+        stage.getIcons().add(new Image(String.valueOf(this.getClass().getResource("/image/blocks.png"))));
+        stage.setResizable(false);
         stage.show();
     }
 

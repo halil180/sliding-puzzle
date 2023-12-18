@@ -101,6 +101,6 @@ public class PuzzleView {
 
         controlsBox.getChildren().addAll(List.of(newGameButton, resetButton, backButton));
         labelBox.getChildren().addAll(List.of(totalMoves, message));
-        background.getChildren().addAll(List.of(title,gridPane, controlsBox, labelBox));
+        background.getChildren().addAll(List.of(title, gridPane, controlsBox, labelBox));
     }
 }

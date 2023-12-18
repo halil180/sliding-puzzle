@@ -17,13 +17,11 @@ public class PuzzleViewController {
 
     private final PuzzleView puzzleView;
     private final Game game;
-    private Puzzle puzzle;
 
     public PuzzleViewController(final Game game, PuzzleView puzzleView) {
         this.game = game;
         this.puzzleView = puzzleView;
         puzzleView.setController(this);
-        puzzle = game.getCurrentPuzzle();
         updateFields();
         setPuzzleGrid();
     }
@@ -36,13 +34,12 @@ public class PuzzleViewController {
         });
     }
 
-    public VBox getView() {
+    public VBox getBackground() {
         return puzzleView.background;
     }
 
     public void newGame() {
         game.startNewGame(4, 4);
-        puzzle = game.getCurrentPuzzle();
 
         resetFields();
         setPuzzleGrid();
@@ -79,25 +76,16 @@ public class PuzzleViewController {
     }
 
     private void setPuzzleGrid() {
-        int width = puzzle.getWidth();
-        int height = puzzle.getHeight();
+        Puzzle puzzle = game.getCurrentPuzzle();
+        for (int row = 0; row < puzzle.getHeight(); row++) {
+            for (int column = 0; column < puzzle.getWidth(); column++) {
+                // puzzle is indexed from 1 to height * width - 1
+                String text = String.valueOf(game.getValue(column + 1, row + 1));
+                Button button = puzzleView.createGridButton(text, column + 1, row + 1);
 
+                if (column % 2 == 0) button.getStyleClass().add("pink-cell");
+                if (puzzle.isEmpty(column + 1, row + 1)) button.getStyleClass().add("empty-cell");
 
-        for (int row = 0; row < height; row++) {
-            for (int column = 0; column < width; column++) {
-                // puzzle is indexed from 1 to height * width -1
-                int puzzleColumn = column + 1;
-                int puzzleRow = row + 1;
-
-                String text = String.valueOf(game.getValue(puzzleColumn, puzzleRow));
-                Button button = puzzleView.createGridButton(text, puzzleColumn, puzzleRow);
-
-                if (column % 2 == 0) {
-                    button.getStyleClass().add("pink-cell");
-                }
-                if (puzzle.isEmpty(puzzleColumn, puzzleRow)) {
-                    button.getStyleClass().add("empty-cell");
-                }
                 GridPane.setConstraints(button, column, row);
                 puzzleView.gridPane.getChildren().add(button);
             }
