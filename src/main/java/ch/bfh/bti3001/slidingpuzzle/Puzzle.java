@@ -232,9 +232,7 @@ public class Puzzle {
      */
     public int getValue(int col, int row) {
         Integer value = grid[row - 1][col - 1];
-        if (value == null) return 99;      // special value for empty cell
-
-        return value;
+        return (value != null) ? value : 0;      // special value for empty cell
     }
 
     @Override
