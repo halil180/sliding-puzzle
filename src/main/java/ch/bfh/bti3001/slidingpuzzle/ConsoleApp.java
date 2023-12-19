@@ -23,75 +23,84 @@ public class ConsoleApp {
     private static final char NEW = 'n';
     private static final char RESET = 's';
     private static final char QUIT = 'q';
+    private static final int width = 3;
+    private static final int height = 3;
+    private static final String INVALID_MOVE_MESSAGE = "Invalid move. Please try again.";
+    private static final String RESET_SUCCESS_MESSAGE = "Game reset successfully.";
+    private static final String CANNOT_MOVE_BACK_MESSAGE = "You cannot move back.";
+    private static final String INVALID_COMMAND_MESSAGE = "Invalid command. Please try again.";
+    private static final String GOODBYE_MESSAGE = "BYE \uD83D\uDC4B";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String GREEN = "\033[0;32m";
+    public static final String COLOR_RESET = "\033[0m";
 
     public static void main(String[] args) {
-        int width = 3;
-        int height = 3;
         System.out.println("WELCOME TO THE SLIDING PUZZLE APP!!!");
         System.out.println("Commands: u=up, d=down, l=left, r=right, b=back, n=new, s=reset, q=quit");
-        //TODO use Game instead of Puzzle when implemented :  Game game = new Game(width,height);// new game instance 3*3
-        Puzzle puzzle = new Puzzle(width, height);// temporary solution, delete this line when Game class is ready
-        puzzle.playRandomMoves(50);
-        playGame(puzzle);
+        Game game = new Game(width, height);
+        playGame(game);
     }
 
-    private static void playGame(Puzzle puzzle) {
-        System.out.println(puzzle);
-        System.out.println("moves = 0"); //TODO use game.getMoves() to get number of moves
-        while (!puzzle.isSolved()) {
-            readInput(puzzle);
-            System.out.println(puzzle);
-            System.out.println("moves = 0"); //TODO use game.getMoves() to get number of moves
+    private static void playGame(Game game) {
+        System.out.println(ANSI_CYAN + game.getCurrentPuzzle() + COLOR_RESET);
+        System.out.println(PURPLE + "moves = " + game.getTotalMoves() + COLOR_RESET);
+        while (!game.gameOver()) {
+            readInput(game);
+            System.out.println(ANSI_CYAN + game.getCurrentPuzzle() + COLOR_RESET);
+            System.out.println(PURPLE + "moves = " + game.getTotalMoves() + COLOR_RESET);
         }
-        System.out.println("Congratulations! Commands: n=new, q=quit");
-        readInput(puzzle);
+        System.out.println(GREEN + "Congratulations! Commands: n=new, q=quit");
+        readInput(game);
     }
 
-    private static void readInput(Puzzle puzzle) {  //TODO readInput(Game game)
+    private static void readInput(Game game) {
         Scanner scanner = new Scanner(System.in);
         char input = scanner.next().charAt(0);
         switch (input) {
             case UP -> {
-                if (puzzle.isValid(Move.UP)) {
-                    puzzle.play(Move.UP);
-                } else {
-                    System.out.println("Invalid move. Please try again.");
+                if (!game.play(Move.UP)) {
+                    System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case DOWN -> {
-                if (puzzle.isValid(Move.DOWN)) {
-                    puzzle.play(Move.DOWN);
-                } else {
-                    System.out.println("Invalid move. Please try again.");
+                if (!game.play(Move.DOWN)) {
+                    System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case LEFT -> {
-                if (puzzle.isValid(Move.LEFT)) {
-                    puzzle.play(Move.LEFT);
-                } else {
-                    System.out.println("Invalid move. Please try again.");
+                if (!game.play(Move.LEFT)) {
+                    System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case RIGHT -> {
-                if (puzzle.isValid(Move.RIGHT)) {
-                    puzzle.play(Move.RIGHT);
-                } else {
-                    System.out.println("Invalid move. Please try again.");
+                if (!game.play(Move.RIGHT)) {
+                    System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
-            case BACK, NEW, RESET -> {
-                System.out.println("Command not implemented yet.");
+            case NEW -> {
+                game.startNewGame(width, height);
+                playGame(game);
+            }
+            case RESET -> {
+                game.resetGame();
+                System.out.println(RESET_SUCCESS_MESSAGE);
+            }
+            case BACK -> {
+                if (game.hasMoveBack()) {
+                    game.moveBack();
+                } else {
+                    System.out.println(CANNOT_MOVE_BACK_MESSAGE);
+                }
             }
             case QUIT -> {
-                System.out.println("BYE");
+                System.out.println(GOODBYE_MESSAGE);
                 System.exit(0);
             }
             default -> {
-                System.out.println("Invalid command. Please try again.");
-                readInput(puzzle);
+                System.out.println(INVALID_COMMAND_MESSAGE);
+                readInput(game);
             }
         }
-
     }
-
 }
