@@ -26,10 +26,11 @@ public class ConsoleApp {
     private static final int width = 3;
     private static final int height = 3;
     private static final String INVALID_MOVE_MESSAGE = "Invalid move. Please try again.";
-    private static final String RESET_SUCCESS_MESSAGE = "Game reset successfully.";
+    private static final String RESET_SUCCESS_MESSAGE = "\uD83D\uDD04 \uD83D\uDD04 Game reset successfully. \uD83D\uDD04 \uD83D\uDD04";
     private static final String CANNOT_MOVE_BACK_MESSAGE = "You cannot move back.";
     private static final String INVALID_COMMAND_MESSAGE = "Invalid command. Please try again.";
     private static final String GOODBYE_MESSAGE = "BYE \uD83D\uDC4B";
+    private static final String NEW_GAME_MESSAGE = "new game \uD83C\uDF89\uD83D\uDE4C\uD83E\uDD73";
     public static final String PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String GREEN = "\033[0;32m";
@@ -59,26 +60,35 @@ public class ConsoleApp {
         char input = scanner.next().charAt(0);
         switch (input) {
             case UP -> {
-                if (!game.play(Move.UP)) {
+                if (game.play(Move.UP)) {
+                    System.out.println("moving ⬆️");
+                } else {
                     System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case DOWN -> {
-                if (!game.play(Move.DOWN)) {
+                if (game.play(Move.DOWN)) {
+                    System.out.println("moving ⬇️");
+                } else {
                     System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case LEFT -> {
-                if (!game.play(Move.LEFT)) {
+                if (game.play(Move.LEFT)) {
+                    System.out.println("moving ⬅️");
+                } else {
                     System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case RIGHT -> {
-                if (!game.play(Move.RIGHT)) {
+                if (game.play(Move.RIGHT)) {
+                    System.out.println("moving ➡️");
+                } else {
                     System.out.println(INVALID_MOVE_MESSAGE);
                 }
             }
             case NEW -> {
+                System.out.println(NEW_GAME_MESSAGE);
                 game.startNewGame(width, height);
                 playGame(game);
             }
@@ -88,6 +98,7 @@ public class ConsoleApp {
             }
             case BACK -> {
                 if (game.hasMoveBack()) {
+                    System.out.println("↩️");
                     game.moveBack();
                 } else {
                     System.out.println(CANNOT_MOVE_BACK_MESSAGE);
