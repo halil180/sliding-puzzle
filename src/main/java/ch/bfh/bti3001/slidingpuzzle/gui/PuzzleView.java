@@ -64,7 +64,7 @@ public class PuzzleView {
         backButton = new Button("Back");
         totalMoves = new Label("Moves: ");
         message = new Label("CONGRATULATIONS!");
-        title = new Label("ShiftMaze");
+        title = new Label("Sliding Puzzle");
     }
 
     private void layoutNodes() {

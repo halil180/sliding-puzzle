@@ -17,10 +17,12 @@ public class PuzzleViewController {
 
     private final PuzzleView puzzleView;
     private final Game game;
+    private boolean isNewGame;
 
     public PuzzleViewController(final Game game, PuzzleView puzzleView) {
         this.game = game;
         this.puzzleView = puzzleView;
+        this.isNewGame = true;
         puzzleView.setController(this);
         updateFields();
         setPuzzleGrid();
@@ -41,26 +43,24 @@ public class PuzzleViewController {
     public void newGame() {
         game.startNewGame(4, 4);
 
-        resetFields();
-        setPuzzleGrid();
+        resetProperties();
+        updateFields();
     }
 
     public void resetGame() {
         game.resetGame();
-        setPuzzleGrid();
+        updateFields();
     }
 
     public void moveBack() {
         game.moveBack();
         updateFields();
-        setPuzzleGrid();
     }
 
-    private void resetFields() {
+    private void resetProperties() {
         puzzleView.message.setVisible(false);
         puzzleView.resetButton.setDisable(false);
         puzzleView.backButton.setDisable(false);
-        puzzleView.totalMoves.setText(TOTAL_MOVES + game.getTotalMoves());
     }
 
     private void updateFields() {
