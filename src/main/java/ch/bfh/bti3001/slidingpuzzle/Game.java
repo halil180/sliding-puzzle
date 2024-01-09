@@ -154,7 +154,7 @@ public class Game {
     public void moveBack() {
         if (hasMoveBack()) {
             puzzle.play(moveStack.pop().reverse());
-            totalMoves++;
+            totalMoves--;
         }
     }
 
