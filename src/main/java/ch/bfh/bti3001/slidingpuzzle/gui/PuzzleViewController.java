@@ -17,12 +17,10 @@ public class PuzzleViewController {
 
     private final PuzzleView puzzleView;
     private final Game game;
-    private boolean isNewGame;
 
     public PuzzleViewController(final Game game, PuzzleView puzzleView) {
         this.game = game;
         this.puzzleView = puzzleView;
-        this.isNewGame = true;
         puzzleView.setController(this);
         updateFields();
         setPuzzleGrid();
