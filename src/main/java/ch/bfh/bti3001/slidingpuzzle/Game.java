@@ -68,7 +68,8 @@ public class Game {
      * Resets the current game to the initial state after its creation.
      */
     public void resetGame() {
-        while (!moveStack.isEmpty()) this.moveBack();
+        while (hasMoveBack()) this.moveBack();
+        totalMoves = 0;
     }
 
     /**
@@ -154,7 +155,7 @@ public class Game {
     public void moveBack() {
         if (hasMoveBack()) {
             puzzle.play(moveStack.pop().reverse());
-            totalMoves--;
+            totalMoves++;
         }
     }
 
