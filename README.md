@@ -37,4 +37,4 @@ ___
 [igor]:https://img.shields.io/badge/Igor_Santana-grey?style=for-the-badge&logo=gitlab
 [igor-profile]:https://gitlab.ti.bfh.ch/santi1
 [haenni]:https://img.shields.io/badge/Rolf_Haenni-grey?logo=gitlab
-[haenni-profile]:https://gitlab.ti.bfh.ch/hnr1
+[haenni-profile]:https://gitlab.ti.bfh.ch/hnr1# sliding-puzzle
